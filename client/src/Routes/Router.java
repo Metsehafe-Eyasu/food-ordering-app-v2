@@ -115,4 +115,17 @@ public class Router {
     public ReviewPanel getReviewPanel() {
         return reviewPanel;
     }
+
+    public void handleCartResponse(String response) {
+        cartPanel.hideLoadingDialog();
+        if (response.equals("ORDER_PLACED")) {
+            displayInfoMessage("Order placed successfully!");
+            cartPanel.clearCart();
+            showHomePage();
+        } else if (response.equals("PAYMENT_FAILED")) {
+            displayErrorMessage("Payment failed. Please try again.");
+        } else {
+            displayErrorMessage("Failed to place order. Please try again.");
+        }
+    }
 }

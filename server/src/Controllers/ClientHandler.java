@@ -52,6 +52,10 @@ public class ClientHandler implements Runnable {
                     handleSaveReview(request);
                 } else if (request.startsWith("GET_REVIEWS")) {
                     handleGetReviews(request);
+                } else if (request.equals("PAYMENT_SUCCESS")) {
+                    handlePaymentSuccess();
+                } else if (request.equals("PAYMENT_FAILURE")) {
+                    handlePaymentFailure();
                 }
             }
 
@@ -149,6 +153,14 @@ public class ClientHandler implements Runnable {
         Gson gson = new Gson();
         String response = gson.toJson(reviews);
         writer.println(response);
+    }
+
+    private void handlePaymentSuccess() {
+        writer.println("ORDER_PLACED");
+    }
+
+    private void handlePaymentFailure() {
+        writer.println("PAYMENT_FAILED");
     }
 
     public void processOrder(int customerId, String addressId, Map<MenuItem, Integer> cartItems) {
