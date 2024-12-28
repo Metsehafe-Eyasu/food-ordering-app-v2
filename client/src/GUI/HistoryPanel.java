@@ -36,12 +36,13 @@ public class HistoryPanel extends JPanel {
         title.setHorizontalAlignment(JLabel.CENTER);
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(1, 4));
+        buttonPanel.setLayout(new GridLayout(1, 5));
 
         JButton homeButton = new JButton("Home");
         JButton cartButton = new JButton("Cart");
         JButton profileButton = new JButton("Profile");
         JButton logoutButton = new JButton("Logout");
+        JButton reviewButton = new JButton("Leave a Review");
 
         logoutButton.addActionListener(e -> {
             client.logout();
@@ -59,10 +60,15 @@ public class HistoryPanel extends JPanel {
             client.navigateToProfilePage();
         });
 
+        reviewButton.addActionListener(e -> {
+            client.navigateToReviewPage();
+        });
+
         buttonPanel.add(homeButton);
         buttonPanel.add(cartButton);
         buttonPanel.add(profileButton);
         buttonPanel.add(logoutButton);
+        buttonPanel.add(reviewButton);
 
         add(title, BorderLayout.NORTH);
         add(buttonPanel, BorderLayout.SOUTH);

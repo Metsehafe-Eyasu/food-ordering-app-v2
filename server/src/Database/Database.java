@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
 
 import Entities.Menu;
 import Entities.MenuItem;
@@ -195,5 +196,42 @@ public class Database {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void saveOrderReview(int orderId, int rating, String review) {
+        try {
+            String sql = "INSERT INTO order_reviews (order_id, rating, review) VALUES (?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, orderId);
+            ps.setInt(2, rating);
+            ps.setString(3, review);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public List<Map<String, Object>> getOrderReviews(int customerId) {
+        List<Map<String, Object>> reviews = new ArrayList<>();
+        try {
+            String sql = "SELECT o.order_id, o.order_date, r.rating, r.review " +
+                         "FROM orders o " +
+                         "JOIN order_reviews r ON o.order_id = r.order_id " +
+                         "WHERE o.customer_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, customerId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Map<String, Object> review = new HashMap<>();
+                review.put("orderId", rs.getInt("order_id"));
+                review.put("orderDate", rs.getDate("order_date"));
+                review.put("rating", rs.getInt("rating"));
+                review.put("review", rs.getString("review"));
+                reviews.add(review);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return reviews;
     }
 }
