@@ -7,6 +7,7 @@ This is a food ordering app that allows users to order food from a restaurant. T
 - Client-side: Java Swing GUI for easy and interactive food ordering.
 - Server-side: Java-based server with MySQL database for data management.
 - Socket-based connection for seamless communication between client and server.
+- Rate and review orders
 
 ## Tech Stack
 
@@ -82,7 +83,12 @@ java Client
 - You can view your order history in the "History" section.
 - This will display a list of all orders you've placed along with their details.
 
-### 5. View Profile
+### 5. Rate and Review Orders
+
+- Navigate to the order history page to see past orders.
+- Click on the "Leave a Review" button to rate and review an order.
+
+### 6. View Profile
 
 - Access your user profile by clicking on the "Profile" option.
 - Here, you can view and edit your personal information.
