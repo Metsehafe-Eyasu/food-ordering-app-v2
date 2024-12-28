@@ -16,6 +16,7 @@ public class CartPanel extends JPanel {
     private JButton historyButton;
     private JButton profileButton;
     private JButton checkoutButton;
+    private JDialog loadingDialog;
 
     public CartPanel(Client client) {
         this.client = client;
@@ -74,6 +75,7 @@ public class CartPanel extends JPanel {
                 int result = JOptionPane.showConfirmDialog(null, "Are you sure you want to checkout?", "Checkout",
                         JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
+                    showLoadingDialog();
                     client.checkout();
                 }
             }
@@ -215,5 +217,22 @@ public class CartPanel extends JPanel {
 
         revalidate();
         repaint();
+    }
+
+    private void showLoadingDialog() {
+        loadingDialog = new JDialog((Frame) null, "Processing Payment", true);
+        JLabel loadingLabel = new JLabel("Processing payment, please wait...");
+        loadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        loadingDialog.add(loadingLabel);
+        loadingDialog.setSize(300, 100);
+        loadingDialog.setLocationRelativeTo(this);
+        loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        loadingDialog.setVisible(true);
+    }
+
+    public void hideLoadingDialog() {
+        if (loadingDialog != null) {
+            loadingDialog.dispose();
+        }
     }
 }

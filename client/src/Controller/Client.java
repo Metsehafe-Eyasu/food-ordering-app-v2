@@ -281,6 +281,27 @@ public class Client {
         OrderRequest orderRequest = new OrderRequest(customer.getCustomerId(), address, cartItems);
         String json = gson.toJson(orderRequest);
         writer.println(json);
+
+        // Simulate payment process
+        simulatePayment();
+    }
+
+    private void simulatePayment() {
+        // Simulate a delay for the payment process
+        try {
+            Thread.sleep(2000); // Simulate payment processing time
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Mock payment success
+        boolean paymentSuccess = true;
+
+        if (paymentSuccess) {
+            writer.println("PAYMENT_SUCCESS");
+        } else {
+            writer.println("PAYMENT_FAILURE");
+        }
     }
 
     public void logout() {
