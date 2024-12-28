@@ -48,6 +48,10 @@ public class ClientHandler implements Runnable {
                     handlePlaceOrder();
                 } else if (request.startsWith("PREVIOUS_ORDERS")) {
                     handlePreviousOrders(request);
+                } else if (request.startsWith("SAVE_REVIEW")) {
+                    handleSaveReview(request);
+                } else if (request.startsWith("GET_REVIEWS")) {
+                    handleGetReviews(request);
                 }
             }
 
@@ -125,6 +129,26 @@ public class ClientHandler implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void handleSaveReview(String request) {
+        String[] parts = request.split(":");
+        int orderId = Integer.parseInt(parts[1]);
+        int rating = Integer.parseInt(parts[2]);
+        String review = parts[3];
+
+        database.saveOrderReview(orderId, rating, review);
+        writer.println("REVIEW_SAVED");
+    }
+
+    private void handleGetReviews(String request) {
+        String[] parts = request.split(":");
+        int customerId = Integer.parseInt(parts[1]);
+        List<Map<String, Object>> reviews = database.getOrderReviews(customerId);
+
+        Gson gson = new Gson();
+        String response = gson.toJson(reviews);
+        writer.println(response);
     }
 
     public void processOrder(int customerId, String addressId, Map<MenuItem, Integer> cartItems) {

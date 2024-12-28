@@ -95,6 +95,12 @@ public class Client {
         router.showProfilePage();
     }
 
+    public void navigateToReviewPage() {
+        currentPage = "REVIEW";
+        sendReviewRequest();
+        router.showReviewPage();
+    }
+
     // Handle server responses
     public void handleServerResponse(String response) {
         System.out.println(response);
@@ -113,6 +119,9 @@ public class Client {
                 break;
             case "CART":
                 handleCartResponse(response);
+                break;
+            case "REVIEW":
+                handleReviewResponse(response);
                 break;
             default:
                 break;
@@ -137,6 +146,16 @@ public class Client {
 
     public void sendHistoryRequest() {
         String request = "PREVIOUS_ORDERS:" + customer.getCustomerId();
+        writer.println(request);
+    }
+
+    public void sendReviewRequest() {
+        String request = "GET_REVIEWS:" + customer.getCustomerId();
+        writer.println(request);
+    }
+
+    public void sendSaveReviewRequest(int orderId, int rating, String review) {
+        String request = "SAVE_REVIEW:" + orderId + ":" + rating + ":" + review;
         writer.println(request);
     }
 
@@ -191,6 +210,13 @@ public class Client {
         }
     }
 
+    public void handleReviewResponse(String response) {
+        Gson gson = new Gson();
+        Type reviewListType = new TypeToken<List<Map<String, Object>>>() {}.getType();
+        List<Map<String, Object>> reviews = gson.fromJson(response, reviewListType);
+        router.getReviewPanel().setReviews(reviews);
+        router.getReviewPanel().updateUI();
+    }
 
     // Utility methods
     private Menu jsonToMenu(String response) {

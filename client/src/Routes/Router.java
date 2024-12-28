@@ -17,6 +17,7 @@ public class Router {
     private CartPanel cartPanel;
     private ProfilePanel profilePanel;
     private HistoryPanel historyPanel;
+    private ReviewPanel reviewPanel;
 
     public Router(Client client) {
         this.client = client;
@@ -28,6 +29,7 @@ public class Router {
         cartPanel = new CartPanel(client);
         profilePanel = new ProfilePanel(client);
         historyPanel = new HistoryPanel(client);
+        reviewPanel = new ReviewPanel(client);
 
         frame = new JFrame("Food Ordering App");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -41,6 +43,7 @@ public class Router {
         frame.getContentPane().add(cartPanel, "cart");
         frame.getContentPane().add(profilePanel, "profile");
         frame.getContentPane().add(historyPanel, "history");
+        frame.getContentPane().add(reviewPanel, "review");
 
         showLoginPage();
         System.out.println("Router initialized");
@@ -81,6 +84,12 @@ public class Router {
         cardLayout.show(frame.getContentPane(), "profile");
     }
 
+    public void showReviewPage() {
+        CardLayout cardLayout = (CardLayout) frame.getContentPane().getLayout();
+        cardLayout.show(frame.getContentPane(), "review");
+        reviewPanel.updateUI();
+    }
+
     // Methods to display messages
     public void displayErrorMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Error", JOptionPane.ERROR_MESSAGE);
@@ -102,5 +111,8 @@ public class Router {
     }
     public HistoryPanel getHistoryPanel() {
         return historyPanel;
+    }
+    public ReviewPanel getReviewPanel() {
+        return reviewPanel;
     }
 }
